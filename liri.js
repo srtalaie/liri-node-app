@@ -6,17 +6,14 @@ const Spotify = require('node-spotify-api');
 const request = require('request');
 const fs = require('fs');
 
-let command = process.argv[2];
-let search = process.argv[3];
-
 let spotifyKey = new Spotify(keys.spotify);
 let twitterKey = new Twitter(keys.twitter);
 
 //Returns the last 20 tweets from the account the user entered
 function myTweets(account){
-    twitterKey.get('search/tweets', {q: account, count: 20}, function(error, tweets, response){
+    twitterKey.get('statuses/user_timeline', {screen_name: account, count: 20}, function(error, tweets, response){
         if(error) throw error;
-        tweets.statuses.forEach(function(status){
+        tweets.forEach(function(status){
             console.log(status.text);
             console.log('-' + status.created_at);
             console.log('/////////////////////////////////////////////////////////////////////////');
@@ -73,37 +70,48 @@ function movieThis(movie){
 //Runs a LIRI command from random.txt
 function doWhatItSays(){
     fs.readFile('random.txt', 'utf8', function(err, data){
-        console.log(data);
+        let newArr = data.split(',');
+        let txtCommand = newArr[0];
+        let txtSearch = newArr[1];
+        app(txtCommand, txtSearch);
     });
 }
 
+let command = process.argv[2];
+let search = process.argv[3];
+
 //Takes in user command and search term and executes one of the above functions
 //If no term is provided then it will display defaults
-switch(command){
-    case 'my-tweets':
-        if(search){
-            myTweets(search);
-        } else {
-            myTweets('TheRock');
-        }
-        break;
-    case 'spotify-this-song':
-        if(search){
-            spotifyThisSong(search);
-        } else {
-            spotifyThisSong('The Sign');
-        }
-        break;
-    case 'movie-this':
-        if(search){
-            movieThis(search);
-        } else {
-            movieThis('Mr. Nobody');
-            console.log('If you haven\'t seen it you should. It\'s on Netflix!');
-        }
-        break;
-    default:
-        console.log('Please enter one of the following commands followed by your search term:' + '\n' + 'my-tweets <Account Name>' + '\n' + 'spotify-this-song "track title"' + '\n' + 'movie-this "title of movie"' + '\n' + 'Terms must be in quotes for spotify-this-song and movie-this commands' + '\n' + 'do-what-it-says' + '\n' + '/////////////////////////////////////////////////////////////////////////');
-}
+function app(command, search){
 
+    switch(command){
+        case 'my-tweets':
+            if(search){
+                myTweets(search);
+            } else {
+                myTweets('sunnyscript');
+            }
+            break;
+        case 'spotify-this-song':
+            if(search){
+                spotifyThisSong(search);
+            } else {
+                spotifyThisSong('The Sign');
+            }
+            break;
+        case 'movie-this':
+            if(search){
+                movieThis(search);
+            } else {
+                movieThis('Mr. Nobody');
+                console.log('If you haven\'t seen it you should. It\'s on Netflix!');
+            }
+            break;
+        case 'do-what-it-says':
+            doWhatItSays();
+            break;
+        default:
+            console.log('Please enter one of the following commands followed by your search term:' + '\n' + 'my-tweets <Account Name>' + '\n' + 'spotify-this-song "track title"' + '\n' + 'movie-this "title of movie"' + '\n' + 'Terms must be in quotes for spotify-this-song and movie-this commands' + '\n' + 'do-what-it-says' + '\n' + '/////////////////////////////////////////////////////////////////////////');
+    }
+}
 doWhatItSays();
