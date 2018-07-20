@@ -11,5 +11,7 @@ spotify-this-song "Song Name (*In quotes*)": Gets the 20 tracks with the song na
 
 movie-this "Movie Title (*In quotes*)": Gets the movie and displays the title, writer, director, languages, locations, actors, release date IMDB and Rotten Tomatoe ratings.
 
+do-what-it-says: Runs a LIRI command from random.txt
+
 
 https://srtalaie.github.io/liri-node-app/
