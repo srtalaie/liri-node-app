@@ -13,5 +13,6 @@ movie-this "Movie Title (*In quotes*)": Gets the movie and displays the title, w
 
 do-what-it-says: Runs a LIRI command from random.txt
 
+You will need to create your own .env file and include your own api keys/secrets for twitter and spotify in order for the app to be able to use it's my-tweets and spotify-this-song functions.
 
 https://srtalaie.github.io/liri-node-app/
