@@ -53,6 +53,7 @@ function spotifyThisSong(songName, defaultSongName = 'The Sign'){
 function movieThis(movie){
     request("http://www.omdbapi.com/?t=" + movie + "&apikey=trilogy", function(error, response, body){
         if (!error && response.statusCode === 200) {
+            let body = JSON.parse(body);
             console.log('Title:', JSON.parse(body).Title);
             console.log('Year:', JSON.parse(body).Year);
             console.log('IMDB:', JSON.parse(body).Ratings[0].Value);
@@ -114,4 +115,3 @@ function app(command, search){
             console.log('Please enter one of the following commands followed by your search term:' + '\n' + 'my-tweets <Account Name>' + '\n' + 'spotify-this-song "track title"' + '\n' + 'movie-this "title of movie"' + '\n' + 'Terms must be in quotes for spotify-this-song and movie-this commands' + '\n' + 'do-what-it-says' + '\n' + '/////////////////////////////////////////////////////////////////////////');
     }
 }
-doWhatItSays();
